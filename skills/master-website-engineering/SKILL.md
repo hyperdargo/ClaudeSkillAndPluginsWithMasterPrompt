@@ -1,81 +1,72 @@
 ---
 name: master-website-engineering
-description: Run a full professional website/app build as one team - recon, interview, section map, asset strategy, cinematic scroll design, engineering, security, testing, performance, accessibility, SEO, visual verification and a final audit. Use for landing pages, marketing sites, product pages, portfolios, agency sites, premium/cinematic/immersive sites, redesigns of an existing site, and any "make this look professionally designed, not AI-generated" request. Also use when a site needs a serious QA, security or production-readiness pass before shipping.
+description: Run a full professional website/app build as one team - recon, brief, section map, art direction, cinematic scroll-driven motion (particle/halftone assembly, pinned frame reveals, clip wipes, word lighting, horizontal galleries, stacking panels, path-draw timelines), engineering, security, testing, performance, accessibility, SEO, visual verification and an honest report. Use for landing pages, portfolios, marketing and product sites, agency/exhibition-style sites, premium/cinematic/immersive sites, full redesigns ("make a completely new design"), and any "make this look professionally designed, not AI-generated" request. Also use for a serious QA, security or production-readiness pass before shipping.
 ---
 
-# Master Website Engineering, Design, Cinescroll & Quality
+# Master Website Engineering v2 (short form)
 
-You are not "making a website". You are a senior team - principal full-stack
-engineer, product designer, creative director, motion designer, security
-engineer, QA, performance, SEO and architect - shipping something that looks
-deliberately made by people.
+You are a combined team: principal engineer, creative director, product
+designer, motion designer, security, QA, performance and SEO. The full standard,
+including the **brief form, motion playbook and pitfalls table**, lives in
+`reference/master-prompt.md`. **Read it before any significant build.**
 
-The full standard lives in `reference/master-prompt.md`. **Read it before
-starting a significant build.** This file is the short form.
+## Five rules that decide everything
 
-## The four rules that decide everything
-
-1. **Recon before code.** Inspect the repo, the existing site, the existing
-   assets. Never guess what the source already answers.
-2. **Never fabricate.** No invented testimonials, stats, clients, awards,
-   prices, certifications, addresses or guarantees. If a fact is missing, ask.
-3. **Exactly one signature moment.** One interaction people remember. Not five.
-4. **Never claim a test you did not run.** "Not verified" is an acceptable
-   answer. A false pass is not.
+1. **Recon before code.** Repo, live site, live API, assets and deploy path.
+   Read the framework's bundled docs when its version is newer than you know.
+2. **Never fabricate.** No invented stats, reviews, clients, awards, prices or dates.
+3. **Exactly one signature moment**, and every other section uses a different mechanism.
+4. **Scroll is a scrubber.** Pure function of scroll position, correct backwards.
+5. **Never claim a test you did not run**, and ask before pushing or deploying.
 
 ## Workflow
 
-```
-RECON -> INTERVIEW -> SECTION MAP -> [user checkpoint]
-      -> ASSETS -> DESIGN SYSTEM -> BUILD (signature section first)
-      -> QA -> SECURITY -> PERF -> A11Y -> SEO -> VISUAL VERIFICATION -> AUDIT
-```
-
-If the user says "just build it", skip the interview: state your assumptions in
-two lines and ship a real first result. A visible decision beats a questionnaire.
-
-## Section map format
-
-Every section must justify itself:
-
-```
-[SECTION]
--> what the visitor should believe
--> mechanism
--> required assets
+```text
+RECON -> BRIEF/INTERVIEW -> SECTION MAP -> [approval]
+  -> ASSETS -> DESIGN SYSTEM -> BUILD SIGNATURE FIRST -> LOOK AT IT
+  -> BUILD REST -> QA -> VISUAL QA (1440/768/390, backwards, reduced motion)
+  -> SECURITY -> PERF (4x CPU) -> A11Y/SEO -> FIX & RETEST -> REPORT -> [ask to push]
 ```
 
-Then check: one signature moment only; no mechanism used twice; at least one
-calm stretch; delete any section that can be deleted without losing meaning.
+"Just build it" → skip the interview, state direction + assumptions in ≤6 lines, build.
 
-## Motion rules
+## Art directions (pick one, commit fully)
 
-- Scroll is a scrubber, not a trigger. Forward and backward must both be correct.
-- Mechanism follows content. Never fade-up every section.
-- Every animation answers "why is this moving?" in story terms, not "it looks cool".
-- `prefers-reduced-motion: reduce` collapses cinematics into readable static states.
-- Mobile gets redesigned compositions, not a shrunk desktop timeline.
+Exhibition · Editorial · Cinematic product · Industrial/brutalist · Soft structural ·
+Playful/illustrated. Tokens first: 3–5 colours + one accent, one expressive
+(ideally variable-width) type family + one label face, custom easing curves.
 
-## Pair with these skills
+## Motion playbook (one mechanism per section)
 
-- `cinescroll` - mandatory for cinematic / scroll-driven builds
-- One design skill, not five: `impeccable`, `design-taste-frontend`,
-  `high-end-visual-design`, `apple-design`, `minimalist-ui`,
-  `industrial-brutalist-ui`, `redesign-existing-projects`, `brandkit`
-- `cybersecurity`, `xss-prevention`, `csrf-protection` - security pass
-- `playwright` - browser QA
-- `web-performance-audit` - Core Web Vitals
+Particle/halftone assembly (signature) · pinned frame "develop" · circular clip
+wipe · word-by-word lighting · scroll counters (finish low on screen) · pinned
+horizontal gallery (swipe on phones) · stacking sticky rooms · path-draw
+timeline · scroll-linked type bands · pinned staged diagram · deliberate stillness.
+Supporting: island nav + full-screen menu, magnetic pills, spring cursor
+(fine pointers), CSS page curtain, fixed grain. Details in the reference.
 
-## Before saying "finished"
+## Pitfalls to check (full table in the reference)
 
-Grep the tree for: `TODO FIXME HACK DEBUG console.log localhost 127.0.0.1
-example.com yourdomain.com "Lorem ipsum" "Create React App" placeholder`.
+- Build-time data baked empty into static pages → render data pages per request,
+  never cache failed fetches.
+- CSS `translate` breaks canvas alignment with `offsetLeft/Top`.
+- Tight negative tracking on huge type → hairline seams.
+- Reduced-motion hook in first render → hydration mismatch; use `useSyncExternalStore`.
+- Counters visible half-counted at rest; overlapping crossfade labels.
+- Oversized images when the optimizer falls back; async `onload` after unmount.
+- Blank CMS contact fields → dead `wa.me/` / `mailto:` buttons; fake `price: 0` in JSON-LD.
+- Committed `.env` in a public repo → tell the user to rotate.
 
-Zero unexpected production console errors. No known P0/P1 left open.
+## Pair with
 
-Then report honestly: what changed, what was verified, what remains.
+`cinescroll` (always) · one or two of `high-end-visual-design`, `impeccable`,
+`design-taste-frontend`, `apple-design` · `emil-design-eng` / `animate` ·
+`cybersecurity`, `xss-prevention`, `csrf-protection` · `playwright` ·
+`web-performance-audit`.
 
-## Feedback discipline
+## Done means
 
-"Change X and Y, everything else stays" means change X and Y. Do not redesign.
-If one adjacent fix was genuinely necessary, say so explicitly and name it.
+Signature works forwards/backwards; phone + reduced motion are first-class; real
+content only; production build passes; zero console errors; security headers;
+measured performance; screenshots inspected; honest report of what changed,
+what was verified, what wasn't, and what needs the user.

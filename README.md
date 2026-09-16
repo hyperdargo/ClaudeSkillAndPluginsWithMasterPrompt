@@ -117,26 +117,33 @@ performance phases the master prompt demands. Without them Claude can only guess
 
 ## 3. Use the master prompt
 
-**[`MASTER-PROMPT.md`](MASTER-PROMPT.md)** is a 60-section standard for building
-production-quality websites — recon, interview, section map, asset strategy,
-cinematic scroll design, engineering, security, testing, performance,
-accessibility, SEO, visual verification, final audit.
+**[`MASTER-PROMPT.md`](MASTER-PROMPT.md)** (v2) is a standard for building
+websites that feel made, not generated. It has two parts:
 
-### The pattern: describe your work, then paste the prompt underneath
+- **Part A — a fill-in brief** anyone can complete in plain language, including an
+  **art direction menu** (Exhibition, Editorial, Cinematic product,
+  Industrial/brutalist, Soft structural, Playful/illustrated).
+- **Part B — the standard:** recon, one signature moment, a **motion playbook**
+  of proven scroll recipes (particle/halftone portrait assembly, pinned frame
+  reveal, clip wipes, word lighting, horizontal galleries, stacking rooms,
+  path-draw timelines), a **pitfalls table** taken from real bugs, security,
+  a strict verification protocol and an honest report format.
 
-Every time you start a website task, write what you want in your own words,
-then paste the whole master prompt below it. That ordering matters — your brief
-comes first, the standard comes second and tells Claude *how* to execute it,
-including which skills and plugins to reach for.
+### The pattern: fill in the brief, then paste the standard underneath
 
 ```
-Build a landing page for my coffee roastery. Existing site is
-example-roastery.com. I want people to book a tasting.
+PROJECT:    Portfolio for me, a cybersecurity student who builds games and tools
+ONE ACTION: People message me on LinkedIn: https://linkedin.com/in/your-name
+DIRECTION:  Exhibition
+just build it
 
 ---
 
-[paste the entire contents of MASTER-PROMPT.md here]
+[paste Part B of MASTER-PROMPT.md here]
 ```
+
+Three lines are enough to start. The more of the brief you fill in, the better
+the result.
 
 Claude then reads your brief through the standard: it inspects your real site
 first, pulls in `cinescroll` for the scroll work, picks *one* design skill,
@@ -147,7 +154,7 @@ builds the signature moment first, runs `playwright` and
 
 | Method | How | Best for |
 | --- | --- | --- |
-| **Paste after your brief** | Copy all of `MASTER-PROMPT.md` under your task description | Any one-off build — most direct control |
+| **Paste after your brief** | Fill in Part A, paste Part B under it | Any one-off build — most direct control |
 | **Install as a skill** | Copy `skills/master-website-engineering/` into `~/.claude/skills/` | Everyday use — loads itself when you describe a website task, no pasting |
 | **Project-wide** | Paste it into your repo's `CLAUDE.md` | A site you'll keep working on, or a team |
 
@@ -166,15 +173,17 @@ More templates, real examples and what a correct run looks like:
 | **Never fabricate** | No invented testimonials, stats, clients, prices, awards or addresses — ask instead |
 | **One signature moment** | One interaction people remember, not five competing for attention |
 | **Scroll is a scrubber** | Every scroll-driven animation must be correct forward *and* backward |
-| **Mechanism follows content** | Never fade-up every section — pick the motion the meaning needs |
-| **Verify, then report** | "Not verified" is an acceptable answer. A false pass is not. |
+| **Mechanism follows content** | Never fade-up every section — pick the motion from the playbook |
+| **Learn from real bugs** | A pitfalls table: build-time data baked empty, misaligned canvases, hydration mismatches, dead contact buttons, exposed `.env` |
+| **Verify, then report** | Screenshots at 3 sizes, backwards scrub, reduced motion, E2E, measured performance. "Not verified" beats a false pass |
 
 Its workflow, in short:
 
 ```
-RECON → INTERVIEW → SECTION MAP → [your approval]
-      → ASSETS → DESIGN SYSTEM → BUILD (signature section first)
-      → QA → SECURITY → PERF → A11Y → SEO → VISUAL VERIFICATION → AUDIT
+RECON → BRIEF/INTERVIEW → SECTION MAP → [your approval]
+      → ASSETS → DESIGN SYSTEM → BUILD (signature first, then look at it)
+      → QA → VISUAL QA → SECURITY → PERF → A11Y/SEO → FIX & RETEST
+      → HONEST REPORT → [asks before pushing]
 ```
 
 Say **"just build it"** and it skips the interview — states its assumptions in
@@ -275,8 +284,10 @@ The `remotion-*` family — start with `remotion-best-practices`, which routes t
 
 ```
 .
-├── MASTER-PROMPT.md          the full 60-section standard
+├── MASTER-PROMPT.md          v2: brief form + standard + motion playbook + pitfalls
 ├── MASTER-PROMPT-USAGE.md    how to apply it, with templates
+├── archive/
+│   └── MASTER-PROMPT-v1.md   the original 60-section prompt
 ├── INSTALL.md                detailed skill install + troubleshooting
 ├── CREDITS.md                authorship and licensing
 ├── skills/                   50 skills, install by copying folders
