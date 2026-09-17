@@ -12,7 +12,7 @@ original work and claims no blanket license over its contents.
 
 ## Everything else
 
-The 49 skills under `skills/` were authored by other people and collected from
+The 50 skills under `skills/` were authored by other people and collected from
 various sources (plugin marketplaces, public repos, community shares). **Each
 skill's own license and authorship governs its use.** Where a skill declares
 metadata in its `SKILL.md` frontmatter, that is authoritative over anything
@@ -25,6 +25,7 @@ written here.
 | `impeccable` | Declares `license: Apache 2.0` in its own frontmatter (v4.1.3) |
 | `remotion-*` (11 skills) | Remotion team — [remotion-dev/remotion](https://github.com/remotion-dev/remotion), v4.0.520 |
 | `ponytail`, `ponytail-audit`, `ponytail-debt`, `ponytail-gain`, `ponytail-help`, `ponytail-review` | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) |
+| `graphify` | Safi Shamsi and the Graphify contributors — [Graphify-Labs/graphify](https://github.com/Graphify-Labs/graphify), v0.9.63. Apache-2.0; `LICENSE`, `LICENSE-MIT` and `NOTICE` ship inside the skill folder |
 | `emil-design-eng` | Encodes the UI/animation philosophy of Emil Kowalski |
 | `apple-design` | Describes Apple's published human-interface principles; not affiliated with Apple |
 | `stitch-design-taste` | Written for use with Google Stitch; not affiliated with Google |
@@ -44,6 +45,7 @@ instructions pointing at their marketplaces:
 | --- | --- | --- |
 | `claude-hud` | Jarrod Watts — [jarrodwatts/claude-hud](https://github.com/jarrodwatts/claude-hud) | MIT |
 | `cybersecurity`, `xss-prevention`, `csrf-protection`, `api-design-principles`, `playwright`, `web-performance-audit` | [secondsky/claude-skills](https://github.com/secondsky/claude-skills) | MIT |
+| `agent-skills` | Addy Osmani — [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) | MIT |
 
 ## If this is your work
 

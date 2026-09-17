@@ -130,6 +130,13 @@ Say the skill name explicitly: *"use the cinescroll skill for this"*.
 Remove one. `design-taste-frontend` and `design-taste-frontend-v1` are the same
 skill at two versions — keep one. Same for overlapping visual-design skills.
 
+**`graphify` loads but every command fails.**
+The skill drives a Python CLI that isn't in this repo. Install it with
+`uv tool install graphifyy` (or `pipx install graphifyy`). If `graphify` isn't
+found afterwards, run `uv tool update-shell` and open a new terminal.
+`graphify install` can also write the skill for you. It adds a short `/graphify`
+note to `~/.claude/CLAUDE.md`.
+
 **Scripts won't run.**
 A few skills (`impeccable`, `caveman-stats`) ship helper scripts that need
 `Bash(...)` permissions and, in some cases, Node. Check that skill's own

@@ -3,9 +3,9 @@
 # Claude Skills, Plugins & the Master Prompt
 
 **A complete working setup for [Claude Code](https://claude.com/claude-code):
-50 skills, 7 plugins, and one master prompt that makes them work together.**
+51 skills, 8 plugins, and one master prompt that makes them work together.**
 
-`50 skills` · `7 plugins` · `1 master prompt`
+`51 skills` · `8 plugins` · `1 master prompt`
 
 </div>
 
@@ -38,7 +38,7 @@ cd ClaudeSkillAndPluginsWithMasterPrompt
 
 A skill is a folder with a `SKILL.md` inside. Claude reads every skill's
 description at startup and loads the body only when your task matches — so
-installing all 50 costs you almost nothing until one is actually needed.
+installing all 51 costs you almost nothing until one is actually needed.
 
 **Everything, user-wide** (available in every project):
 
@@ -74,6 +74,10 @@ Then **restart Claude Code** and ask *"which skills do you have?"* to confirm.
 > Copying overwrites same-named skills. Back up first if you have customised any:
 > `cp -r ~/.claude/skills ~/.claude/skills.backup`
 
+> **`graphify` also needs its CLI.** Install it with `uv tool install graphifyy`
+> (the package name has two y's), or `pipx install graphifyy`. Then type
+> `/graphify .` in any repo.
+
 Symlinking, subsets, verification and troubleshooting: **[INSTALL.md](INSTALL.md)**
 
 ---
@@ -86,6 +90,7 @@ cycle, so you install them from their marketplaces. Paste these into Claude Code
 ```
 /plugin marketplace add jarrodwatts/claude-hud
 /plugin marketplace add https://github.com/secondsky/claude-skills.git
+/plugin marketplace add https://github.com/addyosmani/agent-skills.git
 
 /plugin install claude-hud@claude-hud
 /plugin install cybersecurity@claude-skills
@@ -94,6 +99,7 @@ cycle, so you install them from their marketplaces. Paste these into Claude Code
 /plugin install api-design-principles@claude-skills
 /plugin install playwright@claude-skills
 /plugin install web-performance-audit@claude-skills
+/plugin install agent-skills@addy-agent-skills
 ```
 
 | Plugin | What it does | Page |
@@ -105,6 +111,7 @@ cycle, so you install them from their marketplaces. Paste these into Claude Code
 | `api-design-principles` | REST and GraphQL design standards | [→](plugins/api-design-principles.md) |
 | `playwright` | Browser automation and E2E testing | [→](plugins/playwright.md) |
 | `web-performance-audit` | Core Web Vitals and bottleneck analysis | [→](plugins/web-performance-audit.md) |
+| `agent-skills` | 25 engineering skills, spec to ship, plus `/spec` `/plan` `/build` `/test` `/review` `/ship` | [→](plugins/agent-skills.md) |
 
 Each has its own install page in **[plugins/](plugins/README.md)** with version,
 license and when it fires. Restart Claude Code after installing.
@@ -112,6 +119,8 @@ license and when it fires. Restart Claude Code after installing.
 These five — `cybersecurity`, `xss-prevention`, `csrf-protection`, `playwright`,
 `web-performance-audit` — are what actually *run* the security, QA and
 performance phases the master prompt demands. Without them Claude can only guess.
+`agent-skills` handles the engineering around the design: spec, plan, thin slices,
+TDD, review, debugging and the launch checklist.
 
 ---
 
@@ -123,7 +132,8 @@ websites that feel made, not generated. It has two parts:
 - **Part A — a fill-in brief** anyone can complete in plain language, including an
   **art direction menu** (Exhibition, Editorial, Cinematic product,
   Industrial/brutalist, Soft structural, Playful/illustrated).
-- **Part B — the standard:** recon, one signature moment, a **motion playbook**
+- **Part B — the standard:** recon, a **skills router** that assigns every
+  installed skill and plugin to the phase where it helps, one signature moment, a **motion playbook**
   of proven scroll recipes (particle/halftone portrait assembly, pinned frame
   reveal, clip wipes, word lighting, horizontal galleries, stacking rooms,
   path-draw timelines), a **pitfalls table** taken from real bugs, security,
@@ -146,9 +156,11 @@ Three lines are enough to start. The more of the brief you fill in, the better
 the result.
 
 Claude then reads your brief through the standard: it inspects your real site
-first, pulls in `cinescroll` for the scroll work, picks *one* design skill,
-builds the signature moment first, runs `playwright` and
-`web-performance-audit` on it, and reports honestly what it verified.
+first (with `graphify` on a big repo), pulls in `cinescroll` for the scroll work,
+picks *one* design skill, plans with `spec-driven-development`, builds the
+signature moment first in thin slices, reviews with `code-review-and-quality`,
+runs `playwright` and `web-performance-audit` on it, and reports honestly what
+it verified and which skills it used.
 
 ### Three ways to load it
 
@@ -174,6 +186,7 @@ More templates, real examples and what a correct run looks like:
 | **One signature moment** | One interaction people remember, not five competing for attention |
 | **Scroll is a scrubber** | Every scroll-driven animation must be correct forward *and* backward |
 | **Mechanism follows content** | Never fade-up every section — pick the motion from the playbook |
+| **Right skill, right phase** | Each phase loads its own skills from the router; overlapping skills have a clear lead; the report names what ran |
 | **Learn from real bugs** | A pitfalls table: build-time data baked empty, misaligned canvases, hydration mismatches, dead contact buttons, exposed `.env` |
 | **Verify, then report** | Screenshots at 3 sizes, backwards scrub, reduced motion, E2E, measured performance. "Not verified" beats a false pass |
 
@@ -193,7 +206,7 @@ two lines and ships a real first result instead of a questionnaire.
 
 ## Skill catalog
 
-All 50 live in [`skills/`](skills/). Install all, or cherry-pick.
+All 51 live in [`skills/`](skills/). The 25 `agent-skills` come from their [plugin](plugins/agent-skills.md). Install all, or cherry-pick.
 
 | Skill | What it does |
 | --- | --- |
@@ -214,6 +227,7 @@ All 50 live in [`skills/`](skills/). Install all, or cherry-pick.
 | `find-animation-opportunities` | Search a codebase or UI for places that don't animate but should, and reject everything that shouldn't. Read-only; it proposes motion with exact values, it does not implement it. Use when the user asks "what could be animated... |
 | `full-output-enforcement` | Overrides default LLM truncation behavior. Enforces complete code generation, bans placeholder patterns, and handles token-limit splits cleanly. Apply to any task requiring exhaustive, unabridged output. |
 | `gpt-taste` | Elite UX/UI & Advanced GSAP Motion Engineer. Enforces Python-driven true randomization for layout variance, strict AIDA page structure, wide editorial typography (bans 6-line wraps), gapless bento grids, strict GSAP... |
+| `graphify` | Turns a codebase, docs, papers, images or video into a persistent knowledge graph (`graphify-out/`) with query, path and explain tools. Answer architecture questions from the graph instead of re-reading files. Needs the `graphifyy` CLI. |
 | `high-end-visual-design` | Teaches the AI to design like a high-end agency. Defines the exact fonts, spacing, shadows, card structures, and animations that make a website feel expensive. Blocks all the common defaults that make AI designs look cheap or... |
 | `image-to-code` | Elite website image-to-code skill for Codex. For visually important web tasks, it must first generate the design image(s) itself, deeply analyze them, then implement the website to match them as closely as possible. In Codex,... |
 | `imagegen-frontend-mobile` | Elite mobile app image-generation skill for creating premium, app-native screen concepts and flows. Designed for iOS, Android, and cross-platform mobile products. Prioritizes clean hierarchy, comfortably readable text, strong... |
@@ -259,12 +273,20 @@ routing worse, not better. Pick the smallest combination.
 `master-website-engineering` + `cinescroll` + **one** design skill + `animate`
 → then `playwright` and `web-performance-audit` for the QA pass.
 
+**Engineering discipline (any project)**
+`spec-driven-development` → `planning-and-task-breakdown` → `incremental-implementation` +
+`test-driven-development` → `code-review-and-quality` → `shipping-and-launch`.
+Or just `/spec`, `/plan`, `/build`, `/test`, `/review`, `/ship`.
+
+**Understanding a big or unfamiliar codebase**
+`graphify .` once, then ask questions. `debugging-and-error-recovery` when something's broken.
+
 **Redesigning an existing site**
 `master-website-engineering` + `redesign-existing-projects` + `impeccable`
 → audit first, preserve what works, don't invent a new business.
 
 **Shipping safely**
-`cybersecurity` + `xss-prevention` + `csrf-protection` + `web-performance-audit`.
+`security-and-hardening` + `cybersecurity` + `xss-prevention` + `csrf-protection` + `web-performance-audit`.
 
 **Cutting bloat**
 `ponytail` while writing, `ponytail-review` on the diff, `ponytail-audit` on the repo.
@@ -284,20 +306,20 @@ The `remotion-*` family — start with `remotion-best-practices`, which routes t
 
 ```
 .
-├── MASTER-PROMPT.md          v2: brief form + standard + motion playbook + pitfalls
+├── MASTER-PROMPT.md          v2.1: brief form + skills router + motion playbook + pitfalls
 ├── MASTER-PROMPT-USAGE.md    how to apply it, with templates
 ├── archive/
 │   └── MASTER-PROMPT-v1.md   the original 60-section prompt
 ├── INSTALL.md                detailed skill install + troubleshooting
 ├── CREDITS.md                authorship and licensing
-├── skills/                   50 skills, install by copying folders
+├── skills/                   51 skills, install by copying folders
 │   └── master-website-engineering/
 │       ├── SKILL.md          short router version of the master prompt
 │       └── reference/
 │           └── master-prompt.md
 └── plugins/                  install pages, one per plugin
     ├── README.md
-    └── <plugin>.md × 7
+    └── <plugin>.md × 8
 ```
 
 ---

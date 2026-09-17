@@ -1,4 +1,4 @@
-# MASTER PROMPT v2 — Cinematic Websites That Feel Made, Not Generated
+# MASTER PROMPT v2.1 — Cinematic Websites That Feel Made, Not Generated
 
 > **How to use:** fill in the **Brief** (Part A) in your own words, then paste
 > everything from Part B down into Claude Code with it. In a hurry? Answer only
@@ -78,19 +78,63 @@ fast, reads clearly, works on a phone and respects reduced motion.
 
 ---
 
-### 2. Use the installed skills (the smallest set that does the job)
+### 2. Skills & plugins router (load what the phase needs, when it needs it)
 
-| Need | Load |
+Every installed skill has a job. None is loaded "just in case". At each phase,
+load the **Default** skills, and add the others only when their trigger is true.
+List the skills you used in the recon summary and in the final report, with a
+few words on why. "Use everything you've got" means *use everything that
+applies*: five overlapping design skills make the result worse.
+
+If a skill isn't installed, say so once and follow this standard without it.
+Don't pretend it ran.
+
+#### 2.1 By phase
+
+| Phase | Default | Add when… |
+| --- | --- | --- |
+| **Session setup** | `using-agent-skills` | `context-engineering`: output drifts or project rules need writing · `caveman` (lite), `caveman-compress`, `caveman-stats`: token or context budget is tight · `cavecrew`: hand code lookups, 1–2 file edits or diff reviews to compressed subagents so the main context lasts · `full-output-enforcement`: a file must be delivered whole, no placeholders |
+| **Recon** | `graphify` on an unfamiliar or large repo (query `graphify-out/` before reading files one by one) | `source-driven-development`: framework is newer than you know · `redesign-existing-projects`: auditing a site you'll redesign · `find-animation-opportunities`, `improve-animations`: existing motion needs a read-only survey |
+| **Brief / interview** | This standard's one-message interview (§3.2) | `interview-me`: the ask is vague and the user did **not** say "just build it" · `idea-refine`: the concept itself is still undecided |
+| **Spec & plan** | `spec-driven-development` → `planning-and-task-breakdown` for multi-page sites and apps | `constraint-driven-development`: write the bar (a11y, perf budget, coverage) into `CONSTRAINTS.md` · `doubt-driven-development`: auth, payments, migrations, irreversible steps · `documentation-and-adrs`: a decision future sessions must know |
+| **Art direction** (max two) | `cinescroll` for scroll-driven sites + **one** of `high-end-visual-design`, `impeccable`, `design-taste-frontend`, `apple-design`, `minimalist-ui`, `industrial-brutalist-ui` | `redesign-existing-projects`: redesign of a live site · `stitch-design-taste`: a `DESIGN.md` for Google Stitch · `gpt-taste`, `design-taste-frontend-v1`: only when the user names them |
+| **Design references & assets** | Real assets first (§3.4) | `imagegen-frontend-web` / `imagegen-frontend-mobile`: per-section reference images, then `image-to-code` to implement them · `brandkit`: logo or identity board · `prototype`: several genuinely different versions of one component to choose between live |
+| **Build** | `frontend-ui-engineering` + `incremental-implementation` (thin, verifiable slices) | `test-driven-development`: any logic or bug fix · `pick-ui-library`: before adding any dependency · `ask-sonner`: toasts · `api-and-interface-design`, `api-design-principles`: endpoints and contracts · `ponytail` (lite): keep the code minimal |
+| **Motion** | `emil-design-eng` + `animate` | `animation-vocabulary`: the user describes an effect without its name · `apple-design`: gestures, springs, sheets, momentum |
+| **Debugging** | `debugging-and-error-recovery` (root cause, not guesses) | `graphify` `path` / `explain`: trace how two parts connect |
+| **Review** | `code-review-and-quality` on the diff | `review-animations`: any motion code · `ponytail-review`, `code-simplification`: bloat in the diff · `ponytail-audit`: whole-repo over-engineering · `ponytail-debt`: list deferred shortcuts before shipping |
+| **Security** | `security-and-hardening` + `cybersecurity` | `xss-prevention`: any user- or CMS-rendered content · `csrf-protection`: forms and cookie sessions · `security-review`: final pass on the branch |
+| **Browser QA** | `playwright` (screenshots, E2E, §8) | `browser-testing-with-devtools`: live console, network and performance traces (needs the chrome-devtools MCP) |
+| **Performance** | `web-performance-audit` (measure first) | `performance-optimization`: server, queries, N+1, bundle fixes |
+| **Ship** | `git-workflow-and-versioning` (atomic commits, PR) + `shipping-and-launch` (checklist, rollback) | `ci-cd-and-automation`: pipelines and quality gates · `observability-and-instrumentation`: production logs, metrics, alerts · `deprecation-and-migration`: removing features or changing schemas |
+
+Plugin shortcuts from `agent-skills`: `/spec`, `/plan`, `/build`, `/test`,
+`/review`, `/code-simplify`, `/constraints`, `/ship`, `/webperf`, and the
+reviewer agents `code-reviewer`, `security-auditor`, `test-engineer`,
+`web-performance-auditor` for fresh-context checks.
+
+#### 2.2 Work that isn't a website
+
+| Task | Load |
 | --- | --- |
-| Scroll-driven / cinematic workflow | `cinescroll` (always, for this kind of site) |
-| Art direction & polish (pick **one or two**) | `high-end-visual-design`, `impeccable`, `design-taste-frontend`, `apple-design`, `minimalist-ui`, `industrial-brutalist-ui`, `redesign-existing-projects` |
-| Motion craft | `emil-design-eng`, `animate` |
-| Security | `cybersecurity`, `xss-prevention`, `csrf-protection`, `security-review` |
-| Browser QA | `playwright` |
-| Performance | `web-performance-audit` |
+| Video: product film, launch reel, animated captions, map animation | `remotion-best-practices`, which routes to `remotion-create`, `-markup`, `-captions`, `-maps`, `-multimedia`, `-interactivity`, `-studio`, `-render`, `-saas`, `-docs`, `-upgrade` |
+| iOS / macOS app | `write-swift` + `apple-design` |
+| React Native / Expo app | `animate-expo` (+ `imagegen-frontend-mobile` for screen concepts) |
+| Understanding any codebase, docs folder or paper set | `graphify` |
+| Help and stats | `ponytail-help`, `ponytail-gain`, `caveman-stats` · `claude-hud` shows context and cost in the statusline |
 
-If the user says "use everything you've got", still load only what applies, and
-say which you used and why. Five overlapping design skills make results worse.
+#### 2.3 When two skills overlap, one leads
+
+| Area | Leads | Supports |
+| --- | --- | --- |
+| Look vs structure | Design skill decides the look | `frontend-ui-engineering` decides markup, a11y, state and responsiveness |
+| Security | `security-and-hardening` fixes the code | `cybersecurity` audits and tests; `security-review` checks the final diff |
+| Performance | `web-performance-audit` measures the browser | `performance-optimization` fixes server and data costs |
+| Simplicity | `ponytail` while writing | `code-simplification` for behaviour-preserving refactors; `ponytail-review` on the diff |
+| APIs | `api-and-interface-design` for module and type contracts | `api-design-principles` for REST / GraphQL surface |
+| Browser checks | `playwright` for repeatable screenshots and E2E | `browser-testing-with-devtools` for live debugging |
+| Interview | "just build it" from the user | `interview-me` only when the user didn't say it |
+| Taste variants | `design-taste-frontend` | `design-taste-frontend-v1`, `gpt-taste` replace it, they don't add to it |
 
 ---
 
@@ -104,6 +148,11 @@ say which you used and why. Five overlapping design skills make results worse.
   ─► 12 A11Y + SEO ─► 13 FIX & RETEST ─► 14 HONEST REPORT ─► ✋ ASK BEFORE PUSH/DEPLOY
 ```
 
+Each step loads its skills from §2.1 when it starts: `graphify` at recon,
+`spec-driven-development` before the section map of a big build,
+`incremental-implementation` + `test-driven-development` while building,
+`code-review-and-quality` before QA, `shipping-and-launch` before the push question.
+
 **Just build it:** if the user says "just build it", "you decide" or "work",
 skip the interview, state the direction and assumptions in ≤6 lines, and build.
 Show a real result, then iterate.
@@ -111,6 +160,9 @@ Show a real result, then iterate.
 #### 3.1 Recon (report in ≤6 bullets)
 
 - Stack, framework version, package manager, build and deploy path.
+- **Large or unfamiliar repo:** run `graphify .` once, then answer "where is X /
+  what calls Y" from `graphify-out/` (`graphify query`, `path`, `explain`)
+  instead of opening files one by one.
 - **Read the framework's bundled docs** when the installed version is newer than
   you know (e.g. `node_modules/next/dist/docs/`). APIs change; heed deprecations.
 - Existing content: real copy, real numbers, real links, real contact channels.
@@ -287,6 +339,7 @@ the **first** request must show real data.
 What changed        — plain language: what a visitor will notice
 Signature moment    — what happens and why it exists
 Fixed along the way — real bugs found and fixed, one line each
+Skills used         — each skill/plugin that ran, and the phase it served
 Verified            — build, tests, E2E counts, visual passes, performance numbers
 Not verified        — browsers, devices, environments you could not test
 Needs you           — rotations, CMS fields, decisions only the user can make
