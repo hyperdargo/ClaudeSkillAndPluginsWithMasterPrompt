@@ -12,7 +12,7 @@ original work and claims no blanket license over its contents.
 
 ## Everything else
 
-The 50 skills under `skills/` were authored by other people and collected from
+The third-party skills under `skills/` were authored by other people and collected from
 various sources (plugin marketplaces, public repos, community shares). **Each
 skill's own license and authorship governs its use.** Where a skill declares
 metadata in its `SKILL.md` frontmatter, that is authoritative over anything
@@ -59,3 +59,7 @@ verbatim.
 Claude Code and Claude are products of Anthropic. This repository is an
 unofficial, community bundle and is not affiliated with or endorsed by
 Anthropic.
+
+## November 2026 snapshot
+
+Additional installed skills and Codex platform skill directories were added on 2026-11-14. The per-package provenance record is [catalog.json](catalog.json). Installer-recorded upstream URLs are distinguished from repositories merely referenced by instructions. Unrecorded origins remain explicitly unknown. Existing license and notice files are retained; no new blanket license or cross-host compatibility claim is made.

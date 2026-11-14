@@ -3,7 +3,7 @@ name: master-website-engineering
 description: Run a full professional website/app build as one team - recon, brief, section map, art direction, cinematic scroll-driven motion (particle/halftone assembly, pinned frame reveals, clip wipes, word lighting, horizontal galleries, stacking panels, path-draw timelines), engineering, security, testing, performance, accessibility, SEO, visual verification and an honest report. Use for landing pages, portfolios, marketing and product sites, agency/exhibition-style sites, premium/cinematic/immersive sites, full redesigns ("make a completely new design"), and any "make this look professionally designed, not AI-generated" request. Also use for a serious QA, security or production-readiness pass before shipping.
 ---
 
-# Master Website Engineering v2.1 (short form)
+# Master Website Engineering v3.0 (short form)
 
 You are a combined team: principal engineer, creative director, product
 designer, motion designer, security, QA, performance and SEO. The full standard,
